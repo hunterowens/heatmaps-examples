@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Leaflet Heat</title>
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.1/mapbox.css' rel='stylesheet' />
+
+<style>
+  body { margin:0; padding:0; }
+  #map { position:absolute; top:0; bottom:0; width:100%; }
+</style>
+</head>
+<body>
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-heat/v0.1.0/leaflet-heat.js'></script>
+<div id='map'></div>
+
+<!-- Example data. -->
+<script src="/mapbox.js/assets/realworld.388.js"></script>
+
+<script>
+    var map = L.mapbox.map('map', 'examples.map-20v6611k').setView([-37.821, 175.219], 16),
+        heat = L.heatLayer(addressPoints, {maxZoom: 18}).addTo(map),
+        draw = true;
+
+    // add points on mouse move (except when interacting with the map)
+    map.on({
+        movestart: function () { draw = false; },
+        moveend:   function () { draw = true; },
+        mousemove: function (e) {
+            if (draw) {
+                heat.addLatLng(e.latlng);
+            }
+        }
+    })
+</script>
+</body>
+</html>
